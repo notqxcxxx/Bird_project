@@ -6,11 +6,11 @@ import ast
 
 pygame.init()
 
-SAVE_FILE = 'bird_game/level0.txt'
-SAVE_FILE_R = 'bird_game/level_r0.txt'
-SAVE_FILE_B = 'bird_game/level_b0.txt'
-SAVE_FILE_T = 'bird_game/level_t0.txt'
-SAVE_FILE_S = 'bird_game/level_s0.txt'
+SAVE_FILE = 'level0.txt'
+SAVE_FILE_R = 'level_r0.txt'
+SAVE_FILE_B = 'level_b0.txt'
+SAVE_FILE_T = 'level_t0.txt'
+SAVE_FILE_S = 'level_s0.txt'
 
 WIDTH, HEIGHT = 640, 640 #320, 4256
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -45,22 +45,22 @@ anim_delay = 100
 
 sky_images = []
 #-----------------BIRD------------------------
-bird = pygame.image.load("bird_game/bird/bird.png").convert_alpha()
+bird = pygame.image.load("bird/bird.png").convert_alpha()
 bird = pygame.transform.scale(bird, (64, 64))
 bird_f = pygame.transform.flip(bird,True, False)
-bird_hit = pygame.image.load("bird_game/bird/bird_hit.png").convert_alpha()
+bird_hit = pygame.image.load("bird/bird_hit.png").convert_alpha()
 bird_hit = pygame.transform.scale(bird_hit, (64, 64))
 bird_hit_f = pygame.transform.flip(bird_hit,True, False)
-bird_jump = pygame.image.load("bird_game/bird/bird_jump.png").convert_alpha()
+bird_jump = pygame.image.load("bird/bird_jump.png").convert_alpha()
 bird_jump = pygame.transform.scale(bird_jump, (64, 64))
 bird_jump_f = pygame.transform.flip(bird_jump,True, False)
-bird_lay = pygame.image.load("bird_game/bird/bird_lay.png").convert_alpha()
+bird_lay = pygame.image.load("bird/bird_lay.png").convert_alpha()
 bird_lay = pygame.transform.scale(bird_lay, (64, 64))
 bird_lay_f = pygame.transform.flip(bird_lay,True, False)
-bird_walk = pygame.image.load("bird_game/bird/bird_walk.png").convert_alpha()
+bird_walk = pygame.image.load("bird/bird_walk.png").convert_alpha()
 bird_walk = pygame.transform.scale(bird_walk, (64, 64))
 bird_walk_f = pygame.transform.flip(bird_walk,True, False)
-
+empty_spr = pygame.Surface((64, 64),pygame.SRCALPHA)
 bird_images = [bird, bird_hit, bird_jump, bird_lay, bird_walk]
 bird_images_f = [bird_f, bird_hit_f, bird_jump_f, bird_lay_f, bird_walk_f]
 
@@ -75,41 +75,44 @@ birds = [bird_stay, bird_walks, bird_jumps, bird_hits, bird_lays]
 bird_img = bird_images[0]
 bird_dir = 1
 #-----------------HITBOX----------------------
-road = pygame.image.load("bird_game/hitbox_textures/road.png").convert_alpha()
+road = pygame.image.load("hitbox_textures/road.png").convert_alpha()
 road = pygame.transform.scale(road, (640, 192))
-roof1 = pygame.image.load("bird_game/hitbox_textures/roof1.png").convert_alpha()
+roof1 = pygame.image.load("hitbox_textures/roof1.png").convert_alpha()
 roof1 = pygame.transform.scale(roof1, (64, 64))
 roof1_f = pygame.transform.flip(roof1,True, False)
-roof2 = pygame.image.load("bird_game/hitbox_textures/roof2.png").convert_alpha()
+roof2 = pygame.image.load("hitbox_textures/roof2.png").convert_alpha()
 roof2 = pygame.transform.scale(roof2, (128, 64))
 roof2_f = pygame.transform.flip(roof2,True, False) 
-roof3 = pygame.image.load("bird_game/hitbox_textures/roof3.png").convert_alpha()
+roof3 = pygame.image.load("hitbox_textures/roof3.png").convert_alpha()
 roof3 = pygame.transform.scale(roof3, (192, 64))
 roof3_f = pygame.transform.flip(roof3,True, False)
-sakura = pygame.image.load("bird_game/hitbox_textures/sakura.png").convert_alpha()
+sakura = pygame.image.load("hitbox_textures/sakura.png").convert_alpha()
 sakura = pygame.transform.scale(sakura, (320, 320))
 sakura_f = pygame.transform.flip(sakura,True, False)
-spike_up = pygame.image.load("bird_game/hitbox_textures/spike.png").convert_alpha()
+spike_up = pygame.image.load("hitbox_textures/spike.png").convert_alpha()
 spike_up = pygame.transform.scale(spike_up, (64, 64))
 spike_right = pygame.transform.rotate(spike_up, -90)
 spike_down = pygame.transform.rotate(spike_up, -180)
 spike_left = pygame.transform.rotate(spike_up, 90)
-windowsill = pygame.image.load("bird_game/hitbox_textures/windowsill.png").convert_alpha()
+windowsill = pygame.image.load("hitbox_textures/windowsill.png").convert_alpha()
 windowsill = pygame.transform.scale(windowsill, (192, 64))
 roof_img = [roof1, roof2, roof3, roof3_f, roof2_f, roof1_f]
 plat_img = [roof_img, windowsill]
 spike_img = [spike_up, spike_right, spike_down, spike_left]
 #-----------------HOUSE-----------------------
-wall = pygame.image.load("bird_game/house_textures/wall.png").convert_alpha()
+wall = pygame.image.load("house_textures/wall.png").convert_alpha()
 wall = pygame.transform.scale(wall, (64, 64))
-wood_wall = pygame.image.load("bird_game/house_textures/wood_wall.png").convert_alpha()
+wood_wall = pygame.image.load("house_textures/wood_wall.png").convert_alpha()
 wood_wall = pygame.transform.scale(wood_wall, (64, 64))
-window = pygame.image.load("bird_game/house_textures/window.png").convert_alpha()
+window = pygame.image.load("house_textures/window.png").convert_alpha()
 window = pygame.transform.scale(window, (64, 64))
+broken_roof = pygame.image.load("house_textures/broken_roof.png").convert_alpha()
+broken_roof = pygame.transform.scale(broken_roof, (64, 64))
 back_img = [wall, window]
+broken_roofs = []
 #-----------------SKY-------------------------
 for i in range(12):
-    sky_images.append(pygame.image.load(f"bird_game/sky_textures/sky{i+1}.png").convert_alpha())
+    sky_images.append(pygame.image.load(f"sky_textures/sky{i+1}.png").convert_alpha())
     sky_images[i] = pygame.transform.scale(sky_images[i], (640, 640))
     #print(sky_images)
 
@@ -125,18 +128,67 @@ class Player(pygame.sprite.Sprite):
         self.bird_img = bird_img
         self.bird_dir = bird_dir
         self.jump = jump
+        self.hit = False
+        self.walk = False
+        self.stand = True
+        self.fall = False
+        self.lay = False
+        self.player_in_plat = False
+        self.side = 1
+        self.anim_stand = pyganim.PygAnimation([
+        ('bird/anim/frame2.png', 300),
+        ])
+        self.anim_stand_f = pyganim.PygAnimation([
+        (bird_f, 300),
+        ])
         self.anim = pyganim.PygAnimation([
-        ('bird_game/bird/anim/frame1.png', 300),
-        ('bird_game/bird/anim/frame2.png', 300),
+        ('bird/anim/frame1.png', 300),
+        ('bird/anim/frame2.png', 300),
+        ])
+        self.anim_f = pyganim.PygAnimation([
+        (bird_f, 300),
+        (bird_walk_f, 300),
         ])
         self.anim_jump = pyganim.PygAnimation([
-        ('bird_game/bird/anim/frame1.png', 100),
-        ('bird_game/bird/anim/frame3.png', 100),
+        ('bird/anim/frame1.png', 100),
+        ('bird/anim/frame3.png', 100),
         ])
+        self.anim_jump_f = pyganim.PygAnimation([
+        (bird_walk_f, 100),
+        (bird_jump_f, 100),
+        ])
+        self.anim_hit = pyganim.PygAnimation([
+        ('bird/bird_hit.png', 100),
+        ])
+        self.anim_fall = pyganim.PygAnimation([
+        ('bird/anim/frame2.png', 200),
+        (empty_spr, 200),
+        ])
+        self.anim_fall_f = pyganim.PygAnimation([
+        (bird_f, 200),
+        (empty_spr, 200),
+        ])
+        self.anim_lay = pyganim.PygAnimation([
+        ('bird/bird_lay.png', 200),
+        ])
+        self.anim_lay.scale((64,64))
+        self.anim_stand.scale((64,64))
+        self.anim_stand_f.scale((64,64))
         self.anim.scale((64,64))
+        self.anim_f.scale((64,64))
+        self.anim_hit.scale((64,64))
+        self.anim_fall.scale((64,64))
+        self.anim_fall_f.scale((64,64))
         self.anim_jump.scale((64,64))
+        self.anim_jump_f.scale((64,64))
         self.anim.play()
-        self.how_many_pl = 0
+        self.anim_f.play()
+        self.fall_plat = 0
+
+        self.anims = [[self.anim_f, 8], [self.anim, 20]]
+        self.anims_jump = [[self.anim_f, 8], [self.anim_jump, 20]]
+        self.anims_fall = [[self.anim_fall_f, 8], [self.anim_fall, 20]]
+        self.anims_stand = [[self.anim_stand_f, 8], [self.anim_stand, 20]]
 
     def update(self, platforms, editor_mode = 0):
         #global bird_dir, jump
@@ -152,28 +204,36 @@ class Player(pygame.sprite.Sprite):
                 return self.bird_img
 
         if keys[pygame.K_LEFT]:
+            self.side = 1
+            self.walk = True
             dx = -PLAYER_SPEED
             self.bird_dir = 0
             #self.bird_img = jumpanim(5)
         if keys[pygame.K_RIGHT]:
+            self.side = 0
+            self.walk = True
             dx = PLAYER_SPEED
             self.bird_dir = 1
             #self.bird_img = jumpanim(-5)
-        if editor_mode != 0:
-            self.vel_y = 0
+        if not keys[pygame.K_RIGHT] and not keys[pygame.K_LEFT]:
+            self.walk = False
+            self.stand = True
+        if editor_mode != 0 and self.fall == False:
             if keys[pygame.K_DOWN]:
                 self.rect.y -= JUMP_SPEED
             if keys[pygame.K_UP]:
                 self.rect.y += JUMP_SPEED
 
-
-
         # горизонтальний рух
         self.rect.x += dx
 
+        #for p in platforms:
+        #    if not self.rect.colliderect(p):
+        #        self.player_in_plat = False
+
         for p in platforms:
             p = pygame.Rect(p[:4])
-            if self.rect.colliderect(p):
+            if self.rect.colliderect(p) and self.fall == False:
                 self.jump = False
                 if dx > 0:
                     self.rect.right = p.left
@@ -183,13 +243,33 @@ class Player(pygame.sprite.Sprite):
         # гравітація
         if editor_mode == 0:
             self.vel_y += GRAVITY
+            if self.vel_y > 24 and self.fall == False and self.hit == False:
+                self.hit = True
         self.rect.y += self.vel_y
 
         for p in platforms:
             p = pygame.Rect(p[:4])
             if self.rect.colliderect(p):
-                if self.how_many_pl > 0:
-                    self.how_many_pl =- 1
+                if self.fall_plat > 0: #and self.player_in_plat == False:
+                    #self.player_in_plat = True
+                    self.fall_plat -= 1
+                    if self.rect.y >= 804:
+                        self.rect.y = 804
+                        self.fall_plat = 0
+                    if self.fall_plat == 0:
+                        #broken_sprite = broken_roof.copy()
+                        #broken_sprite.set_alpha(128)
+                        #broken_roofs.append(((self.rect.x, self.rect.y), broken_sprite))
+                        self.fall = False
+                        self.lay = True
+                        print("lay True")
+                        self.rect.bottom = p.top
+                        self.vel_y = 0
+                    else:
+                        broken_sprite = broken_roof.copy()
+                        broken_sprite.set_alpha(200)
+                        broken_roofs.append([(self.rect.x, self.rect.y), broken_sprite, 200])
+                        self.rect.top = p.bottom
                 else:    
                     #jumps = 2
                     self.jump = False
@@ -225,15 +305,36 @@ class Player(pygame.sprite.Sprite):
                           self.rect.y-camera_y,
                           self.rect.width,
                           self.rect.height))
-        if self.jump == True:
-            self.anim.pause()
-            self.anim_jump.play()
-            self.anim_jump.blit(surface, (self.rect.x-20, self.rect.y-camera_y-4))
+        if self.hit == True:
+            self.anim_hit.play()
+            self.anim_hit.blit(surface, (self.rect.x-20, self.rect.y-camera_y-4))
+            pygame.display.flip()
+            pygame.time.wait(1000)
+            self.hit = False
+            self.fall = True
+        elif self.fall == True:
+            if self.fall_plat == 0:
+                self.fall_plat = 4
+            self.anims_fall[self.side][0].play()
+            self.anims_fall[self.side][0].blit(surface, (self.rect.x-self.anims_fall[self.side][1], self.rect.y-camera_y-4))
             #self.bird_img = bird_jumps[self.bird_dir]
+        elif self.lay == True:
+            #self.anim_fall.pause()
+            self.anim_lay.play()
+            self.anim_lay.blit(surface, (self.rect.x-20, self.rect.y-camera_y-4))
+            #self.bird_img = bird_jumps[self.bird_dir]
+        elif self.jump == True:
+            self.anims_jump[self.side][0].play()
+            self.anims_jump[self.side][0].blit(surface, (self.rect.x-self.anims_jump[self.side][1], self.rect.y-camera_y-4))
+            #self.bird_img = bird_jumps[self.bird_dir]
+        elif self.walk == True:
+            self.anims[self.side][0].play()
+            self.anims[self.side][0].blit(surface, (self.rect.x-self.anims[self.side][1], self.rect.y-camera_y-4))
         else:
-            self.anim_jump.pause()
-            self.anim.play()
-            self.anim.blit(surface, (self.rect.x-8, self.rect.y-camera_y-4))
+            #self.anim_stand.play()
+            self.anims_stand[self.side][0].play()
+            self.anims_stand[self.side][0].blit(surface, (self.rect.x-self.anims_stand[self.side][1], self.rect.y-camera_y-4))
+            #self.anim_hit.blit(surface, (self.rect.x-20, self.rect.y-camera_y-4))
 
             #self.bird_img = birds[0][self.bird_dir]
 
@@ -245,6 +346,19 @@ class Player(pygame.sprite.Sprite):
         #    self.anim.blit(surface, (self.rect.x-8, self.rect.y-camera_y-4))
         #self.anim.blit(surface, self.rect)
 
+    def chech_spikes(self, triangle):
+        coor_rect = [(self.rect.left, self.rect.top),
+                     (self.rect.left+self.rect.width, self.rect.top),
+                     (self.rect.left, self.rect.top+self.rect.height),
+                     (self.rect.left+self.rect.width, self.rect.top+self.rect.height)
+                     ]
+        for sp in triangle:
+            for coor_i in coor_rect:
+                # why check and why not return?
+                rez = point_in_triangle(coor_i, sp[0], sp[1], sp[2])
+                if rez:
+                    return rez
+        return False    
 
 def point_in_triangle(pt, v1, v2, v3):
     """Перевіряє, чи лежить точка pt (x, y) всередині трикутника (v1, v2, v3)."""
@@ -273,7 +387,7 @@ def save_map(list_rect, list_roofs, list_back, list_triangle, list_spikes):
         for tri in list_triangle:
             file.write(str(tri))
     with open(SAVE_FILE_S, "w", encoding="utf-8") as file:
-            for tri in list_spikes:
+            for rect in list_spikes:
                 file.write(str(rect))
 
 
@@ -374,7 +488,7 @@ player = Player()
 
 # Карта
 platforms, roofs, platforms_back, triangle, spikes = load_map(SAVE_FILE, SAVE_FILE_R, SAVE_FILE_B, SAVE_FILE_T, SAVE_FILE_S)
-
+#    save_map(platforms, roofs, platforms_back, triangle, spikes)
 if len(platforms) ==0:
     # Земля
     for i in range(50):
@@ -413,6 +527,8 @@ while running:
             editor_mode = event.key - pygame.K_0
         if event.type == pygame.KEYDOWN and event.key == pygame.K_c:
             print(pygame.mouse.get_pos() ,camera_y)
+            print(player.vel_y)
+            print(player.rect.y)
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3 and editor_mode != 0:
             xx, yy = pygame.mouse.get_pos()
             destroy_obj(xx, yy+camera_y)
@@ -421,11 +537,14 @@ while running:
             secondx_coor = -1
             secondy_coor = -1
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            player.lay = False
             if player.jumps != 0:
                 player.jump = True
                 player.vel_y = 0 
                 player.vel_y += JUMP_SPEED
                 player.jumps = player.jumps-1
+                #if player.vel_y > 20:
+                #    player.hit = True
         if event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
             if player.vel_y < 0:
                 player.vel_y = -4
@@ -527,6 +646,7 @@ while running:
                         spikes.append([firstx_coor, firsty_coor, 1, 1, 1])
                     
                 triangle.append([coor1, coor2, coor3])
+                #triangle.append(spikes[-1])
                 firstx_coor = -1
                 firsty_coor = -1
                 secondx_coor = -1
@@ -680,7 +800,24 @@ while running:
 
 
     player.draw(screen, camera_x, camera_y-32)
+    if player.chech_spikes(triangle) and player.fall == False:
+        player.hit = True
+        #player.anim.pause()
+        #player.anim_jump.pause()
+        #player.anim_hit.play()
+        #player.anim_hit.blit(screen, (player.rect.x-20, player.rect.y-camera_y+28))
+    else:
+        player.anim_hit.pause()
+        player.anim.play()
 
+    for p in broken_roofs:
+        if p[2] == 0:
+            broken_roofs.remove(p)
+        p[2] = p[2]-4
+        p[1].set_alpha(max(0, p[2]))
+        screen.blit(p[1], (p[0][0], p[0][1]-camera_y+64))
+
+        
     pygame.display.flip()
     
 
